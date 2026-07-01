@@ -1,0 +1,51 @@
+services:
+
+  db:
+    image: mariadb:11.4
+    container_name: glpi-db
+    restart: unless-stopped
+
+    environment:
+      MARIADB_ROOT_PASSWORD: root123
+      MARIADB_DATABASE: glpidb
+      MARIADB_USER: glpi
+      MARIADB_PASSWORD: glpi123
+      TZ: Europe/Madrid
+
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+    volumes:
+      - glpi-db-data:/var/lib/mysql
+
+    networks:
+      - glpi-network
+
+  glpi:
+    image: glpi/glpi:latest
+    container_name: glpi-web
+    restart: unless-stopped
+
+    depends_on:
+      - db
+
+    ports:
+      - "8080:80"
+
+    environment:
+      TZ: Europe/Madrid
+
+    volumes:
+      - glpi-app-data:/var/glpi
+
+    networks:
+      - glpi-network
+
+volumes:
+  glpi-db-data:
+  glpi-app-data:
+
+networks:
+  glpi-network:
+    driver: bridge
