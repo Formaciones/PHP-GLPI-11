@@ -1,0 +1,60 @@
+:root {
+    --sidebar-width: 280px;
+}
+
+body {
+    min-height: 100vh;
+    background: #f5f7fb;
+}
+
+.layout {
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    background: #172033;
+}
+
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, .76);
+    border-radius: .5rem;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    color: #fff;
+    background: rgba(255, 255, 255, .12);
+}
+
+.brand-mark {
+    width: 42px;
+    height: 42px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: .75rem;
+    background: #ffffff;
+    color: #172033;
+    font-weight: 800;
+}
+
+.logo-strip img {
+    max-height: 88px;
+    max-width: 220px;
+    object-fit: contain;
+}
+
+.welcome-panel {
+    border: 1px solid rgba(23, 32, 51, .08);
+    border-radius: .75rem;
+}
+
+@media (max-width: 767.98px) {
+    .layout {
+        display: block !important;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+}
