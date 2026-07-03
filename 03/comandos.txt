@@ -1,0 +1,2 @@
+mkdir subcontractinstall
+mkdir inc front ajax hook setup templates css js
