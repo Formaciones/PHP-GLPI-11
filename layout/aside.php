@@ -18,6 +18,7 @@
                 <a class="nav-link <?php echo $page === 'autoloadoff' ? 'active' : ''; ?>" href="<?php echo $baseUrl; ?>/02/">PHP Autoloading OFF</a>
                 <a class="nav-link <?php echo $page === 'autoloadon' ? 'active' : ''; ?>" href="<?php echo $baseUrl; ?>/02/index_namespace.php">PHP Autoloading ON</a>
                 <a class="nav-link <?php echo $page === 'poo1' ? 'active' : ''; ?>" href="<?php echo $baseUrl; ?>/02/poo_array.php">PHP POO - Array</a>
+                <a class="nav-link <?php echo $page === 'poo2' ? 'active' : ''; ?>" href="<?php echo $baseUrl; ?>/02/poo_db.php">PHP POO - DB</a>
             </nav>
         </aside>
         

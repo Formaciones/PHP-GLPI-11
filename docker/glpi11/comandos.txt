@@ -1,0 +1,55 @@
+========================================================================
+Windows + Docker Desktop + WSL 2 + GLPI en Docker Compose.
+========================================================================
+Imagen: glpi/glpi:11.0.8
+
+cd docker\glpi11
+Arrancar: docker compose up -d
+Acceder desde el navegador: http://localhost:8080
+
+========================================================================
+Datos de instalación de GLPI
+========================================================================
+Servidor de base de datos: db
+Usuario: glpi
+Contraseña: glpi123
+Base de datos: glpidb
+
+========================================================================
+Usuarios iniciales de GLPI
+========================================================================
+glpi / glpi
+tech / tech
+normal / normal
+post-only / postonly
+
+========================================================================
+Reiniciar desde cero
+========================================================================
+docker compose down -v
+docker compose up -d
+
+========================================================================
+Al terminar la clase
+========================================================================
+docker compose stop
+o bien:
+docker stop glpi-web glpi-db
+
+Los datos permanecen intactos.
+
+========================================================================
+Al día siguiente
+========================================================================
+docker compose start
+o:
+docker compose up -d
+
+El alumno encontrará exactamente el mismo estado que dejó el día anterior.
+
+========================================================================
+Realizar una copia de seguridad de la base de datos
+========================================================================
+mkdir backups
+docker exec glpi-db mysqldump -u root -proot123 glpidb > backups\dia1.sql
+
