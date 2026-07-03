@@ -1,7 +1,7 @@
 <?php
 
 // Constante con la versión
-define('PLUGIN_SUBCONTRACTINSTALL_VERSION', '1.0.0');
+define('PLUGIN_SUBCONTRACTINSTALL_VERSION', '1.0.1');
 
 // Metadatos de plugin visibles en el portal de GLPI
 function plugin_version_subcontractinstall()

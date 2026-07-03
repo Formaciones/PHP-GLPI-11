@@ -1,6 +1,5 @@
 <?php
 
-use CommonDBTM;
 use Plugin\SubcontractInstall\ApiClient;
 
 function plugin_subcontractinstall_computer_add(CommonDBTM $computer)
