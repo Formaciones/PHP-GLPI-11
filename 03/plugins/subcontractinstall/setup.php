@@ -1,7 +1,7 @@
 <?php
 
 // Constante con la versión
-define('PLUGIN_SUBCONTRACTINSTALL_VERSION', '1.0.1');
+define('PLUGIN_SUBCONTRACTINSTALL_VERSION', '1.0.6');
 
 // Metadatos de plugin visibles en el portal de GLPI
 function plugin_version_subcontractinstall()
@@ -39,12 +39,12 @@ function plugin_init_subcontractinstall()
     */
 
     $PLUGIN_HOOKS['item_add']['subcontractinstall'] = [
-        'Cumputer' => 'plugin_subcontractinstall_computer_add'
+        'Computer' => 'plugin_subcontractinstall_computer_added'
     ];
 
     $PLUGIN_HOOKS['item_update']['subcontractinstall'] = [
-        'Cumputer' => 'plugin_subcontractinstall_computer_update'
-    ];    
+        'Computer' => 'plugin_subcontractinstall_computer_updated'
+    ];   
 }
 
 // Instalación Plugins (creación tablas; pre cargar de datos; permisos; etc.)

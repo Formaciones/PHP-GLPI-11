@@ -27,7 +27,7 @@ class ApiClient
 
         \Toolbox::logInFile(
             'subcontractinstall',
-            'JSON prepara para enviar: ' . json_encode($payload));
+            'JSON prepara para enviar: ' . json_encode($payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
         try {
             $response = $client->post(

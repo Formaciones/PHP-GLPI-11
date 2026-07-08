@@ -2,12 +2,12 @@
 
 use Plugin\SubcontractInstall\ApiClient;
 
-function plugin_subcontractinstall_computer_add(CommonDBTM $computer)
+function plugin_subcontractinstall_computer_added(CommonDBTM $computer)
 {
-    ApiClient::sendComputer($computer, 'crear');
+    ApiClient::sendComputer($computer, 'created');
 }
 
-function plugin_subcontractinstall_computer_update(CommonDBTM $computer)
+function plugin_subcontractinstall_computer_updated(CommonDBTM $computer)
 {
-    ApiClient::sendComputer($computer, 'actualizar');
+    ApiClient::sendComputer($computer, 'updated');
 }

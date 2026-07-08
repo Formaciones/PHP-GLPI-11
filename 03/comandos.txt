@@ -7,6 +7,6 @@ curl -X POST http://host.docker.internal/labs/03/api/hook/installations/ -H "Con
 docker exec -it glpi-web bash
 docker exec -u 0 -it glpi-web bash
 
-docker cp "C:\xampp\htdocs\labs\03\plugins\subcontractinstall" glpi-web:/var/www/glpi/plugins/
 docker exec -u 0 -it glpi-web rm -rf /var/www/glpi/plugins/subcontractinstall
+docker cp "C:\xampp\htdocs\labs\03\plugins\subcontractinstall" glpi-web:/var/www/glpi/plugins/
 docker exec -u root -it glpi-web chown -R www-data:www-data /var/www/glpi/plugins/subcontractinstall
