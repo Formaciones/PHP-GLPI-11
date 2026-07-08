@@ -1,0 +1,13 @@
+{
+    "name": "curso/subcontractinstall",
+
+    "require": {
+        "guzzlehttp/guzzle": "^7.9"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Plugins\\SubcontractInstall\\": "inc/"
+        }
+    }
+}

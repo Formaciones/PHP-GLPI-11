@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^php \"scripts/remove_php_comments\\.php\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
