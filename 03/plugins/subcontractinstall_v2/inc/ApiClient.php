@@ -1,7 +1,5 @@
 ﻿<?php
 
-
-
 namespace Plugin\SubcontractInstall;
 
 use CommonDBTM;

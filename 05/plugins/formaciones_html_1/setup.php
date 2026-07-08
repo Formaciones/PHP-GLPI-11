@@ -1,6 +1,6 @@
 <?php
 
-define('PLUGIN_FORMACIONES_VERSION', '5.1.0');
+define('PLUGIN_FORMACIONES_VERSION', '5.1.1');
 
 function plugin_init_formaciones()
 {

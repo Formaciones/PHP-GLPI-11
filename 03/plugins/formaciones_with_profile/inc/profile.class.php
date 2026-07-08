@@ -60,6 +60,7 @@ class PluginFormacionesProfile extends Profile
             : '';
     }
 
+    // Creación del contenido de pestañas del PROFILE
     public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
         if (!$item instanceof Profile) {
@@ -72,6 +73,7 @@ class PluginFormacionesProfile extends Profile
         return true;
     }
 
+    // Formulario para gestionar desde GLPI el nuevo PROFILE y sus permisos
     public function showForm($ID, array $options = [])
     {
         if (!Session::haveRight('profile', READ)) {
@@ -149,6 +151,7 @@ class PluginFormacionesProfile extends Profile
         return true;
     }
 
+    // Mostrar los permisos actuales
     private static function showRightCheckbox($label, $rightValue, $currentRights, $canedit)
     {
         $checked = (($currentRights & $rightValue) === $rightValue);
@@ -170,6 +173,7 @@ class PluginFormacionesProfile extends Profile
         echo "</tr>";
     }
 
+    // Actualización de los permisos actuales
     public static function updateProfileRight($profiles_id, $rights)
     {
         $profileRight = new ProfileRight();
@@ -191,6 +195,7 @@ class PluginFormacionesProfile extends Profile
         ]);
     }
 
+    // Creación de permisos por defecto para el PROFILE
     private static function addDefaultRights($profiles_id)
     {
         $right = new ProfileRight();

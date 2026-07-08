@@ -3,17 +3,19 @@
 define('PLUGIN_FORMACIONES_VERSION', '1.0.0');
 
 function plugin_init_formaciones()
-{
+{    
     global $PLUGIN_HOOKS;
 
     $PLUGIN_HOOKS['csrf_compliant']['formaciones'] = true;
+
+    // Cuando cambiar perfil activo, inicializamos los permisos del plugin
     $PLUGIN_HOOKS['change_profile']['formaciones'] = ['PluginFormacionesProfile', 'initProfile'];
+
+    // Añade Formaciones (como opción) dentro del menu de Activos
     $PLUGIN_HOOKS['menu_toadd']['formaciones'] = ['assets' => 'PluginFormacionesFormacion'];
 
-    Plugin::registerClass('PluginFormacionesFormacion', [
-        'addtabon' => []
-    ]);
-
+    // Registro de las clases del plugin
+    Plugin::registerClass('PluginFormacionesFormacion', [ 'addtabon' => [] ]);
     Plugin::registerClass('PluginFormacionesProfile');
 }
 
@@ -35,7 +37,7 @@ function plugin_version_formaciones()
     ];
 }
 
-
+// Antes de Instalar
 function plugin_formaciones_check_prerequisites()
 {
     if (version_compare(GLPI_VERSION, '11.0.0', 'lt')) {
@@ -46,13 +48,13 @@ function plugin_formaciones_check_prerequisites()
     return true;
 }
 
-
+// Antes de activar
 function plugin_formaciones_check_config()
 {
     return true;
 }
 
-
+// Instalación de Plugin: creación de tabla y registro de permisos
 function plugin_formaciones_install()
 {
     global $DB;
@@ -75,13 +77,14 @@ function plugin_formaciones_install()
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
     }
 
+    // Aplicación de permisos del plugin
     PluginFormacionesProfile::install($migration);
     $migration->executeMigration();
 
     return true;
 }
 
-
+// Deinstalación de Plugin: eliminamos la tabla y permisos
 function plugin_formaciones_uninstall()
 {
     global $DB;

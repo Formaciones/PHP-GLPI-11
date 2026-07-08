@@ -95,9 +95,7 @@ class PluginFormacionesFormacion extends CommonDBTM
 
     public function showForm($ID, array $options = [])
     {
-
         $this->initForm($ID, $options);
-
         $this->showFormHeader($options);
 
         include GLPI_ROOT . '/plugins/formaciones/templates/formacion_form.php';

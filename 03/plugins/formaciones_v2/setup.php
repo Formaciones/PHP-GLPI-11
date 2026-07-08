@@ -74,17 +74,13 @@ function plugin_formaciones_install()
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
     }
 
-
-
     if ($DB->tableExists($table) && !$DB->fieldExists($table, 'company')) {
         $DB->doQuery("ALTER TABLE `$table`
             ADD COLUMN `company` varchar(255) NOT NULL DEFAULT '' AFTER `name`,
             ADD KEY `company` (`company`)");
     }
 
-
     PluginFormacionesProfile::install($migration);
-
     $migration->executeMigration();
 
     return true;

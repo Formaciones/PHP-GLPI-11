@@ -8,9 +8,7 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginFormacionesTipoFormacion extends CommonDropdown
 {
-
     public static $rightname = 'dropdown';
-
 
     public static function getTypeName($nb = 0)
     {

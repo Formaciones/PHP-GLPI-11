@@ -32,6 +32,7 @@ if (isset($_POST['save_extension'])) {
 
 
 if (isset($_POST['run_demo_action'])) {
+    // AQUÍ funcionalidad del botón secundario
     Session::addMessageAfterRedirect(
         __('Boton pulsado.', 'extensiontickets')
     );

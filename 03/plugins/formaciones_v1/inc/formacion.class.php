@@ -5,23 +5,34 @@ if (!defined('GLPI_ROOT')) {
     die('Sorry. You cannot access this file directly');
 }
 
-
 class PluginFormacionesFormacion extends CommonDBTM
 {
+    // Derecho del plugin utilizado para controlar el acceso a FORMACIONES 
     public static $rightname = 'computer';
+
+    // Estado de un registro de FORMACIONES 
     public const STATE_INACTIVE = 0;
     public const STATE_ACTIVE = 1;
 
+    // Retorna nomnbre en singular o plural para el tipo de objeto
     public static function getTypeName($nb = 0)
     {
+        // _n() función de traducción para singular y plural en función del número recibido
         return _n('Formacion', 'Formaciones', $nb, 'formaciones');
     }
 
     public static function getMenuName()
     {
+        // __() traducción de texto
         return __('Formaciones', 'formaciones');
     }
 
+    public static function getIcon()
+    {
+        return 'ti ti-school';
+    }
+
+    // Definición de la opción de menu para GLPI, apoyandose en funciones del la propia clase
     public static function getMenuContent()
     {
         $menu = [];
@@ -38,22 +49,19 @@ class PluginFormacionesFormacion extends CommonDBTM
     }
 
 
-    public static function getIcon()
-    {
-        return 'ti ti-school';
-    }
-
-
     public static function getTable($classname = null)
     {
         return 'glpi_plugin_formaciones_formaciones';
     }
 
-
+    // Pestañas de la ficha del objeto
     public function defineTabs($options = [])
     {
         $tabs = [];
+        // Pestaña principal y se obtiene de la función showForm()
         $this->addDefaultFormTab($tabs);
+
+        // Añadir pestañas estándar (en este caso añade la pestaña de Log/Histórico)
         $this->addStandardTab('Log', $tabs, $options);
 
         return $tabs;
@@ -89,7 +97,7 @@ class PluginFormacionesFormacion extends CommonDBTM
         return $input;
     }
 
-
+    // Retorna el formulario del objeto
     public function showForm($ID, array $options = [])
     {
         $this->initForm($ID, $options);

@@ -1,18 +1,18 @@
 ﻿<?php
 
-
-
-
 define('PLUGIN_EXTENSIONTICKETS_VERSION', '1.0.0');
-
 
 function plugin_init_extensiontickets()
 {
-
     global $PLUGIN_HOOKS;
 
     $PLUGIN_HOOKS['csrf_compliant']['extensiontickets'] = true;
 
+    // Elemento de GLPI: Ticket
+    // Incoporamos la funcionalidad definada la class PluginExtensionticketsTicketExtension
+    // utilizando:
+    // - getTabNameForItem() para el nombre de la pestaña
+    // - displayTabContentForItem() para el contenido de la pestaña
     Plugin::registerClass('PluginExtensionticketsTicketExtension', [
         'addtabon' => ['Ticket']
     ]);
@@ -50,7 +50,6 @@ function plugin_extensiontickets_check_prerequisites()
 
 function plugin_extensiontickets_check_config()
 {
-
     return true;
 }
 
@@ -61,6 +60,9 @@ function plugin_extensiontickets_install()
     $migration = new Migration(PLUGIN_EXTENSIONTICKETS_VERSION);
     $table = 'glpi_plugin_extensiontickets_ticketextensions';
 
+    // NO debemos modificar la tabla orginal de los Tickets para dar sopoete a la nuevos campos
+    // y la nueva funcionalidad.
+    // SI creamos una nueva table y la relacionamos con la tabla original de los Tickets
     if (!$DB->tableExists($table)) {
         $DB->doQuery("CREATE TABLE `$table` (
             `id` int unsigned NOT NULL AUTO_INCREMENT,

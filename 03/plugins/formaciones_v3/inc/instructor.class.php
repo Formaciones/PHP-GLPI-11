@@ -8,7 +8,6 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginFormacionesInstructor extends CommonDBTM
 {
-
     public static $rightname = 'computer';
 
 

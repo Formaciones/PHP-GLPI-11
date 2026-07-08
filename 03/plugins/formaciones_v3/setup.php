@@ -8,16 +8,12 @@ define('PLUGIN_FORMACIONES_VERSION', '3.0.0');
 
 function plugin_init_formaciones()
 {
-
     global $PLUGIN_HOOKS;
 
 
     $PLUGIN_HOOKS['csrf_compliant']['formaciones'] = true;
 
-
     $PLUGIN_HOOKS['change_profile']['formaciones'] = ['PluginFormacionesProfile', 'initProfile'];
-
-
 
     $PLUGIN_HOOKS['menu_toadd']['formaciones'] = [
         'assets' => [
@@ -26,17 +22,9 @@ function plugin_init_formaciones()
         ]
     ];
 
-
     Plugin::registerClass('PluginFormacionesFormacion', ['addtabon' => []]);
-
-
     Plugin::registerClass('PluginFormacionesInstructor', ['addtabon' => []]);
-
-
-
     Plugin::registerClass('PluginFormacionesTipoFormacion');
-
-
     Plugin::registerClass('PluginFormacionesProfile');
 }
 
@@ -44,17 +32,11 @@ function plugin_init_formaciones()
 function plugin_version_formaciones()
 {
     return [
-
         'name'           => __('Formaciones', 'formaciones'),
-
         'version'        => PLUGIN_FORMACIONES_VERSION,
-
         'author'         => 'Borja',
-
         'license'        => 'GPL v2+',
-
         'homepage'       => '',
-
         'requirements'   => [
             'glpi' => [
                 'min' => '11.0.0',
@@ -87,20 +69,13 @@ function plugin_formaciones_check_config()
 
 function plugin_formaciones_install()
 {
-
     global $DB;
-
 
     $migration = new Migration(PLUGIN_FORMACIONES_VERSION);
 
-
     $table = 'glpi_plugin_formaciones_formaciones';
 
-
-
     if (!$DB->tableExists($table)) {
-
-
         $DB->doQuery("CREATE TABLE `$table` (
             `id` int unsigned NOT NULL AUTO_INCREMENT,
             `name` varchar(255) NOT NULL DEFAULT '',
@@ -117,14 +92,11 @@ function plugin_formaciones_install()
             KEY `state` (`state`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
     } else {
-
-
         if (!$DB->fieldExists($table, 'plugin_formaciones_tipoformacions_id')) {
             $DB->doQuery("ALTER TABLE `$table`
                 ADD `plugin_formaciones_tipoformacions_id` int unsigned NOT NULL DEFAULT 0 AFTER `name`,
                 ADD KEY `plugin_formaciones_tipoformacions_id` (`plugin_formaciones_tipoformacions_id`)");
         }
-
 
         if (!$DB->fieldExists($table, 'plugin_formaciones_instructors_id')) {
             $DB->doQuery("ALTER TABLE `$table`
@@ -133,13 +105,9 @@ function plugin_formaciones_install()
         }
     }
 
-
     $instructor_table = 'glpi_plugin_formaciones_instructors';
 
-
     if (!$DB->tableExists($instructor_table)) {
-
-
         $DB->doQuery("CREATE TABLE `$instructor_table` (
             `id` int unsigned NOT NULL AUTO_INCREMENT,
             `name` varchar(255) NOT NULL DEFAULT '',
@@ -154,13 +122,9 @@ function plugin_formaciones_install()
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
     }
 
-
     $type_table = 'glpi_plugin_formaciones_tipoformacions';
 
-
     if (!$DB->tableExists($type_table)) {
-
-
         $DB->doQuery("CREATE TABLE `$type_table` (
             `id` int unsigned NOT NULL AUTO_INCREMENT,
             `entities_id` int unsigned NOT NULL DEFAULT 0,
@@ -176,12 +140,8 @@ function plugin_formaciones_install()
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
     }
 
-
     PluginFormacionesProfile::install($migration);
-
-
     $migration->executeMigration();
-
 
     return true;
 }
@@ -189,12 +149,9 @@ function plugin_formaciones_install()
 
 function plugin_formaciones_uninstall()
 {
-
     global $DB;
-
-
+    
     $migration = new Migration(PLUGIN_FORMACIONES_VERSION);
-
 
     $tables = [
         'glpi_plugin_formaciones_formaciones',
@@ -202,9 +159,7 @@ function plugin_formaciones_uninstall()
         'glpi_plugin_formaciones_tipoformacions'
     ];
 
-
     PluginFormacionesProfile::uninstall($migration);
-
 
     foreach ($tables as $table) {
         if ($DB->tableExists($table)) {
@@ -212,9 +167,7 @@ function plugin_formaciones_uninstall()
         }
     }
 
-
     $migration->executeMigration();
-
 
     return true;
 }

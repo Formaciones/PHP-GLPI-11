@@ -8,13 +8,10 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginFormacionesFormacion extends CommonDBTM
 {
-
     public static $rightname = 'plugin_formaciones_formacion';
-
 
     public const STATE_INACTIVE = 0;
     public const STATE_ACTIVE = 1;
-
 
     public static function getTypeName($nb = 0)
     {
@@ -60,18 +57,15 @@ class PluginFormacionesFormacion extends CommonDBTM
         return $menu;
     }
 
-
     public static function getIcon()
     {
         return 'ti ti-school';
     }
 
-
     public static function getTable($classname = null)
     {
         return 'glpi_plugin_formaciones_formaciones';
     }
-
 
     public function defineTabs($options = [])
     {
@@ -88,18 +82,15 @@ class PluginFormacionesFormacion extends CommonDBTM
         return $tabs;
     }
 
-
     public function prepareInputForAdd($input)
     {
         return $this->cleanInput($input);
     }
 
-
     public function prepareInputForUpdate($input)
     {
         return $this->cleanInput($input);
     }
-
 
     private function cleanInput(array $input)
     {
@@ -122,13 +113,9 @@ class PluginFormacionesFormacion extends CommonDBTM
         return $input;
     }
 
-
     public function showForm($ID, array $options = [])
     {
-
         $this->initForm($ID, $options);
-
-
         $this->showFormHeader($options);
 
 
@@ -167,9 +154,7 @@ class PluginFormacionesFormacion extends CommonDBTM
         echo '</td>';
         echo '</tr>';
 
-
         $this->showFormButtons($options);
-
 
         return true;
     }
@@ -186,9 +171,7 @@ class PluginFormacionesFormacion extends CommonDBTM
 
     public static function getStateName($state)
     {
-
         $states = self::getStates();
-
 
         return $states[(int) $state] ?? __('Desconocido', 'formaciones');
     }

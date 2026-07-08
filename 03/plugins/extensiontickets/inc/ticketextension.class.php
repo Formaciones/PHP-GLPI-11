@@ -25,6 +25,7 @@ class PluginExtensionticketsTicketExtension extends CommonDBTM
         return 'ti ti-ticket';
     }
 
+    // Retorna el nombre de la pestaña que contiene la extensión para Ticket
     public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
     {
         if ($item instanceof Ticket) {
@@ -39,15 +40,15 @@ class PluginExtensionticketsTicketExtension extends CommonDBTM
     }
 
 
+    // Contenido de la nueva pestaña que representa la extensión de Ticket
     public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
-
         if (!$item instanceof Ticket) {
             return false;
         }
 
         $extension = new self();
-        $extension->showForTicket($item);
+        $extension->showForTicket($item);  // Incorpora lo retornado por ShowForm()
 
         return true;
     }
@@ -96,7 +97,7 @@ class PluginExtensionticketsTicketExtension extends CommonDBTM
         ]);
     }
 
-
+    // Guardar los datos extras cuando se guarda el ticket
     public function saveForTicket(array $input)
     {
         $tickets_id = (int) ($input['tickets_id'] ?? 0);

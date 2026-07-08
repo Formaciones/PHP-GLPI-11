@@ -8,9 +8,7 @@ if (!defined('GLPI_ROOT')) {
 
 class PluginFormacionesFormacion extends CommonDBTM
 {
-
     public static $rightname = 'computer';
-
 
     public const STATE_INACTIVE = 0;
     public const STATE_ACTIVE = 1;
@@ -18,7 +16,6 @@ class PluginFormacionesFormacion extends CommonDBTM
 
     public static function getTypeName($nb = 0)
     {
-
         return _n('Formacion', 'Formaciones', $nb, 'formaciones');
     }
 
@@ -159,15 +156,15 @@ class PluginFormacionesFormacion extends CommonDBTM
         echo '<td>' . __('Tipo', 'formaciones') . '</td>';
         echo '<td>';
 
-
         Dropdown::show(PluginFormacionesTipoFormacion::class, [
             'name'  => 'plugin_formaciones_tipoformacions_id',
             'value' => $this->fields['plugin_formaciones_tipoformacions_id'] ?? 0
         ]);
+
+
         echo '</td>';
         echo '<td>' . __('Instructor', 'formaciones') . '</td>';
         echo '<td>';
-
 
         Dropdown::show(PluginFormacionesInstructor::class, [
             'name'  => 'plugin_formaciones_instructors_id',
