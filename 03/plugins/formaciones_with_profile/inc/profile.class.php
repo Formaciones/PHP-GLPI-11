@@ -60,7 +60,6 @@ class PluginFormacionesProfile extends Profile
             : '';
     }
 
-    // Creación del contenido de pestañas del PROFILE
     public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0)
     {
         if (!$item instanceof Profile) {
@@ -73,7 +72,6 @@ class PluginFormacionesProfile extends Profile
         return true;
     }
 
-    // Formulario para gestionar desde GLPI el nuevo PROFILE y sus permisos
     public function showForm($ID, array $options = [])
     {
         if (!Session::haveRight('profile', READ)) {
@@ -151,7 +149,60 @@ class PluginFormacionesProfile extends Profile
         return true;
     }
 
-    // Mostrar los permisos actuales
+    /**
+     * Version simplificada usando la matriz de permisos estandar de GLPI.
+     *
+     * No sustituye a showForm(); se deja como alternativa didactica para ver
+     * como GLPI puede pintar y procesar permisos de perfil con menos codigo.
+     */
+    public function showFormEasy($ID, array $options = [])
+    {
+        if (!Session::haveRight('profile', READ)) {
+            return false;
+        }
+
+        $profile = new Profile();
+        if (!$profile->getFromDB((int) $ID)) {
+            return false;
+        }
+
+        $canedit = Session::haveRight('profile', UPDATE);
+        $rights = [
+            [
+                'field'  => self::RIGHT_FORMACION,
+                'label'  => PluginFormacionesFormacion::getTypeName(Session::getPluralNumber()),
+                'rights' => [
+                    READ   => __('Leer', 'formaciones'),
+                    CREATE => __('Crear', 'formaciones'),
+                    UPDATE => __('Modificar', 'formaciones'),
+                    DELETE => __('Eliminar', 'formaciones'),
+                    PURGE  => __('Eliminar permanentemente', 'formaciones')
+                ]
+            ]
+        ];
+
+        echo "<form method='post' action='" . htmlescape(Profile::getFormURL()) . "'>";
+        echo Html::hidden('id', ['value' => (int) $ID]);
+
+        $profile->displayRightsChoiceMatrix($rights, [
+            'title'   => __('Permisos de Formaciones', 'formaciones'),
+            'canedit' => $canedit
+        ]);
+
+        if ($canedit) {
+            echo "<div class='center'>";
+            echo Html::submit(__('Guardar'), [
+                'name'  => 'update',
+                'class' => 'btn btn-primary'
+            ]);
+            echo "</div>";
+        }
+
+        Html::closeForm();
+
+        return true;
+    }
+
     private static function showRightCheckbox($label, $rightValue, $currentRights, $canedit)
     {
         $checked = (($currentRights & $rightValue) === $rightValue);
@@ -173,7 +224,6 @@ class PluginFormacionesProfile extends Profile
         echo "</tr>";
     }
 
-    // Actualización de los permisos actuales
     public static function updateProfileRight($profiles_id, $rights)
     {
         $profileRight = new ProfileRight();
@@ -195,7 +245,6 @@ class PluginFormacionesProfile extends Profile
         ]);
     }
 
-    // Creación de permisos por defecto para el PROFILE
     private static function addDefaultRights($profiles_id)
     {
         $right = new ProfileRight();
