@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Inteligencia Artificial con TensorFlow",
+    "description": "Desarrollo de redes neuronales profundas y visión por computadora con TensorFlow"
+  },
+  {
+    "name": "Automatización de Procesos RPA",
+    "description": "Implementación de robots de automatización para optimizar procesos empresariales"
+  },
+  {
+    "name": "Gestión de Infraestructura en la Nube",
+    "description": "Configuración y administración de recursos en AWS, Azure y Google Cloud"
+  },
+  {
+    "name": "Desarrollo Frontend con React",
+    "description": "Construcción de interfaces modernas y componentes reutilizables con React.js"
+  },
+  {
+    "name": "Ciberseguridad y Ethical Hacking",
+    "description": "Técnicas de penetración, análisis de vulnerabilidades y defensa de sistemas"
+  },
+  {
+    "name": "Desarrollo de Aplicaciones Móviles",
+    "description": "Creación de apps nativas e híbridas para iOS y Android con Flutter y React Native"
+  }
+]

@@ -23,6 +23,7 @@
                 <a class="nav-link <?php echo $page === 'plugins' ? 'active' : ''; ?>" href="<?php echo $baseUrl; ?>/03/plugins.php">GLPI Plugins</a>
                 <a class="nav-link <?php echo $page === 'hook-view' ? 'active' : ''; ?>" href="<?php echo $baseUrl; ?>/03/api/hook/view.php">GLPI Visor</a>
                 <a class="nav-link <?php echo $page === 'formularios' ? 'active' : ''; ?>" href="<?php echo $baseUrl; ?>/05/">GLPI Formularios</a>
+                <a class="nav-link <?php echo $page === 'importexport' ? 'active' : ''; ?>" href="<?php echo $baseUrl; ?>/07/">GLPI Import/Export</a>
             </nav>
         </aside>
         
