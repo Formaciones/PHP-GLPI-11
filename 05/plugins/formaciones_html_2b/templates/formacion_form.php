@@ -186,7 +186,7 @@ $dropdown_options = [
     <td <?= $label_cell ?>><?= __('Descripcion', 'formaciones') ?></td>
     <!-- Los textos largos usan todo el ancho restante del formulario. -->
     <td colspan="3" <?= $wide_cell ?>>
-        <?= Html::textarea([
+        <?php Html::textarea([
             'name'  => 'description',
             'value' => $this->fields['description'] ?? '',
             'cols'  => 40,
@@ -200,7 +200,7 @@ $dropdown_options = [
     <td <?= $label_cell ?>><?= __('Observaciones internas', 'formaciones') ?></td>
     <!-- Campo interno de notas; funciona igual que descripcion pero con menos filas. -->
     <td colspan="3" <?= $wide_cell ?>>
-        <?= Html::textarea([
+        <?php Html::textarea([
             'name'  => 'observations',
             'value' => $this->fields['observations'] ?? '',
             'cols'  => 40,
