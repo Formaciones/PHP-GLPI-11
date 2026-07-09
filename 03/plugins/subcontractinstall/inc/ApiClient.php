@@ -35,11 +35,12 @@ class ApiClient
                 [
                     'headers' => [
                         //'User-Agent'        => 'GLPI-Plugin-Client/1.0',
-                        'Authorization'     => 'Bearer 123456',
+                        'Authorization'     => 'Bearer <token>',
+                        'APIKEY'            => '1234567890.',
                         'Content-Type'      => 'application/json; charset=utf-8',
                         'Accept'            => 'application/json',
                         //'Content-Length'    => (string)strlen(json_encode($payload)),
-                        //'Connection'        => 'keep-alive'
+                        //'Connection'        => 'keep-alive',                        
                     ],
                     'json' => $payload
                 ]

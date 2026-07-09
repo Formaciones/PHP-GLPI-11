@@ -151,7 +151,7 @@
   -H "Content-Type: application/json" \
   -H "Authorization: Basic Z2xwaTpnbHBp" \
   -H "App-Token: TU_APP_TOKEN" \
-  "http://localhost/glpi/apirest.php/initSession"</code></pre>
+  "http://localhost/apirest.php/initSession"</code></pre>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -165,7 +165,7 @@
   -H "Content-Type: application/json" \
   -H "Authorization: user_token TU_USER_TOKEN" \
   -H "App-Token: TU_APP_TOKEN" \
-  "http://localhost/glpi/apirest.php/initSession"</code></pre>
+  "http://localhost/apirest.php/initSession"</code></pre>
                                     </div>
                                 </div>
                             </div>
@@ -195,12 +195,12 @@
   -H "Content-Type: application/json" \
   -H "Session-Token: TU_SESSION_TOKEN" \
   -H "App-Token: TU_APP_TOKEN" \
-  "http://localhost/glpi/apirest.php/Computer/?range=0-49&amp;expand_dropdowns=true"</code></pre>
+  "http://localhost/apirest.php/Computer/?range=0-49&amp;expand_dropdowns=true"</code></pre>
 
                             <h4 class="h5 fw-bold mt-4">Ejemplo en PHP</h4>
 <pre class="bg-dark text-light rounded-3 p-3"><code>&lt;?php
 
-$baseUrl = 'http://localhost/glpi/apirest.php';
+$baseUrl = 'http://localhost/apirest.php';
 $sessionToken = 'TU_SESSION_TOKEN';
 $appToken = 'TU_APP_TOKEN';
 
@@ -238,12 +238,12 @@ if ($httpCode === 200 || $httpCode === 206) {
   -H "Session-Token: TU_SESSION_TOKEN" \
   -H "App-Token: TU_APP_TOKEN" \
   -d '{"input": {"name": "PC-AULA-01", "serial": "SN-2026-0001", "otherserial": "INV-0001"}}' \
-  "http://localhost/glpi/apirest.php/Computer/"</code></pre>
+  "http://localhost/apirest.php/Computer/"</code></pre>
 
                             <h4 class="h5 fw-bold mt-4">Ejemplo en PHP</h4>
 <pre class="bg-dark text-light rounded-3 p-3"><code>&lt;?php
 
-$baseUrl = 'http://localhost/glpi/apirest.php';
+$baseUrl = 'http://localhost/apirest.php';
 $sessionToken = 'TU_SESSION_TOKEN';
 $appToken = 'TU_APP_TOKEN';
 
@@ -290,7 +290,7 @@ if ($httpCode === 201) {
   -H "Content-Type: application/json" \
   -H "Session-Token: TU_SESSION_TOKEN" \
   -H "App-Token: TU_APP_TOKEN" \
-  "http://localhost/glpi/apirest.php/killSession"</code></pre>
+  "http://localhost/apirest.php/killSession"</code></pre>
                         </section>
 
                         <section>

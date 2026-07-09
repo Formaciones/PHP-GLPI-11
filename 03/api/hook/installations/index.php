@@ -20,6 +20,23 @@ try {
         ]
     );
 
+    /////////////////////////////////////////////////////////
+    // Utiliza en demostración de los Webhooks
+    /////////////////////////////////////////////////////////
+    
+    // $apiKey = $_SERVER['HTTP_APIKEY'] ?? '';
+
+    // if($apiKey !== '1234567890.') {
+    //     http_response_code(401);
+
+    //     echo json_encode([
+    //         'ok' => false,
+    //         'message' => 'No autorizado.'
+    //     ]);
+
+    //     exit;
+    // }
+
     $rawBody = file_get_contents('php://input');
 
     if ($rawBody === false || trim($rawBody) === '') {
