@@ -25,7 +25,7 @@ disponibles desde el menu Activos.
 - `inc/formacion.class.php`: clase principal del objeto Formacion; contiene formulario, estados y definicion de busqueda.
 - `inc/instructor.class.php`: clase del objeto Instructor; contiene nombre, apellidos y numero de matricula.
 - `inc/tipoformacion.class.php`: desplegable `Tipo - Formaciones`.
-- `inc/profile.class.php`: clase auxiliar para preparar permisos de perfiles.
+- `inc/profile.class.php`: clase auxiliar para preparar permisos de perfiles. NO SE USAN, DEFINIDOS COMO EJEMPLO.
 - `front/formacion.php`: pagina de listado de formaciones.
 - `front/formacion.form.php`: pagina que procesa altas, ediciones, borrados y muestra el formulario.
 - `front/instructor.php`: pagina de listado de instructores.
