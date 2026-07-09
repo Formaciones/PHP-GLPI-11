@@ -47,10 +47,12 @@
             'Accept' => 'application/json',
         ];
 
+        // Añade a la cabecera el token de Aplicación
         if ($appToken !== '') {
             $headers['App-Token'] = $appToken;
         }
 
+        // Añade a la cabecera el token de Usuario o Usuario y Contraseña
         // GLPI permite iniciar sesion con user_token o con usuario/contrasena.
         if ($userToken !== '') {
             $headers['Authorization'] = 'user_token ' . $userToken;
@@ -60,6 +62,7 @@
 
         $sessionToken = '';
 
+        // En la primera llamada al API obtenemos el token de sessión
         try {
             $sessionResponse = $client->get('initSession', [
                 'headers' => $headers,

@@ -11,7 +11,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginImportacionesImportacion extends CommonGLPI
 {
     // Usa el mismo derecho que el plugin Formaciones.
-    public static $rightname = 'computer';
+    public static $rightname = 'config';
 
     // API externa que devuelve las formaciones en formato JSON.
     public const API_URL = 'http://host.docker.internal/labs/07/api/formaciones/';

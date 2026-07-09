@@ -11,7 +11,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginImportacionescsvImportacioncsv extends CommonGLPI
 {
     // Usa el mismo derecho que el plugin Formaciones.
-    public static $rightname = 'computer';
+    public static $rightname = 'config';
 
     // Tabla creada por el plugin Formaciones. Este plugin no crea tabla propia.
     public const FORMACIONES_TABLE = 'glpi_plugin_formaciones_formaciones';

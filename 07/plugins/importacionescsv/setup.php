@@ -7,7 +7,7 @@
  * GLPI muestra en Configuracion > Plugins.
  */
 
-define('PLUGIN_IMPORTACIONESCSV_VERSION', '7.0.0');
+define('PLUGIN_IMPORTACIONESCSV_VERSION', '7.0.1');
 
 /**
  * Inicializa el plugin cada vez que GLPI carga sus plugins activos.
