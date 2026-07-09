@@ -11,6 +11,18 @@ puedan orientarse antes de leer el codigo.
 - Nombre
 - Descripcion
 - Estado
+- Formato: Online o Presencial
+- Formador: lista ficticia de formadores
+- Fecha de inicio y fecha de fin
+- Duracion en horas
+- Plazas disponibles
+- Coste y moneda
+- Ubicacion / aula
+- Enlace online
+- Nivel
+- Destinatarios
+- Certificado
+- Observaciones internas
 
 ## Estructura
 

@@ -20,6 +20,10 @@ class PluginFormacionesFormacion extends CommonDBTM
     public const STATE_INACTIVE = 0;
     public const STATE_ACTIVE = 1;
 
+    // Formatos posibles para impartir la formacion.
+    public const FORMAT_ONLINE = 'online';
+    public const FORMAT_PRESENTIAL = 'presencial';
+
     /**
      * Nombre singular/plural que GLPI muestra para este tipo de objeto.
      */
@@ -121,9 +125,6 @@ class PluginFormacionesFormacion extends CommonDBTM
      */
     private function cleanInput(array $input)
     {
-        // El filtro solo sirve para buscar equipos en pantalla; no se guarda.
-        unset($input['computer_filter']);
-
         // Quita espacios al principio y al final del nombre.
         if (isset($input['name'])) {
             $input['name'] = trim($input['name']);
@@ -134,15 +135,49 @@ class PluginFormacionesFormacion extends CommonDBTM
             $input['description'] = trim($input['description']);
         }
 
+        // Campos de texto simples del formulario de demostracion.
+        foreach ([
+            'format',
+            'trainer',
+            'currency',
+            'location',
+            'meeting_url',
+            'level',
+            'target_audience',
+            'observations'
+        ] as $field) {
+            if (isset($input[$field])) {
+                $input[$field] = trim($input[$field]);
+            }
+        }
+
         // Convierte el estado a entero para guardar 0 o 1.
         if (isset($input['state'])) {
             $input['state'] = (int) $input['state'];
         }
 
-        // Relacion con el equipo seleccionado en el inventario de GLPI.
-        if (isset($input['computers_id'])) {
-            $input['computers_id'] = (int) $input['computers_id'];
+        // Normaliza campos numericos para guardar valores consistentes.
+        foreach (['duration_hours', 'cost'] as $field) {
+            if (isset($input[$field])) {
+                $input[$field] = ($input[$field] === '')
+                    ? 0
+                    : (float) str_replace(',', '.', $input[$field]);
+            }
         }
+
+        if (isset($input['capacity'])) {
+            $input['capacity'] = ($input['capacity'] === '') ? 0 : (int) $input['capacity'];
+        }
+
+        // Las fechas vacias se guardan como NULL para ser compatibles con MySQL.
+        foreach (['start_date', 'end_date'] as $field) {
+            if (isset($input[$field]) && $input[$field] === '') {
+                $input[$field] = null;
+            }
+        }
+
+        // Checkbox: si no viene en POST, se considera desmarcado.
+        $input['certificate'] = isset($input['certificate']) ? 1 : 0;
 
         // Devuelve el array ya saneado a GLPI.
         return $input;
@@ -180,6 +215,55 @@ class PluginFormacionesFormacion extends CommonDBTM
     }
 
     /**
+     * Lista de formatos disponibles.
+     */
+    public static function getFormats()
+    {
+        return [
+            self::FORMAT_ONLINE     => __('Online', 'formaciones'),
+            self::FORMAT_PRESENTIAL => __('Presencial', 'formaciones')
+        ];
+    }
+
+    /**
+     * Lista ficticia de formadores para la demo.
+     */
+    public static function getTrainers()
+    {
+        return [
+            'ana_garcia'      => 'Ana Garcia',
+            'marcos_lopez'    => 'Marcos Lopez',
+            'laura_sanchez'   => 'Laura Sanchez',
+            'david_romero'    => 'David Romero',
+            'nuria_martinez'  => 'Nuria Martinez'
+        ];
+    }
+
+    /**
+     * Niveles posibles de una formacion.
+     */
+    public static function getLevels()
+    {
+        return [
+            'inicial'    => __('Inicial', 'formaciones'),
+            'intermedio' => __('Intermedio', 'formaciones'),
+            'avanzado'   => __('Avanzado', 'formaciones')
+        ];
+    }
+
+    /**
+     * Monedas disponibles para los costes.
+     */
+    public static function getCurrencies()
+    {
+        return [
+            'EUR' => 'EUR',
+            'USD' => 'USD',
+            'GBP' => 'GBP'
+        ];
+    }
+
+    /**
      * Devuelve el texto asociado a un estado numerico.
      */
     public static function getStateName($state)
@@ -192,17 +276,11 @@ class PluginFormacionesFormacion extends CommonDBTM
     }
 
     /**
-     * Devuelve el nombre visible de un equipo asociado.
+     * Devuelve el texto asociado a un valor de catalogo.
      */
-    public static function getComputerName($computers_id)
+    private static function getArrayValueName(array $values, $value)
     {
-        $computers_id = (int) $computers_id;
-
-        if ($computers_id <= 0) {
-            return __('Ninguno', 'formaciones');
-        }
-
-        return Dropdown::getDropdownName(Computer::getTable(), $computers_id);
+        return $values[$value] ?? (string) $value;
     }
 
     /**
@@ -234,13 +312,110 @@ class PluginFormacionesFormacion extends CommonDBTM
             'datatype' => 'text'
         ];
 
-        // Columna Equipo. Guarda el id del Computer relacionado.
+        // Columna Formato. Permite filtrar entre online y presencial.
         $tab[] = [
             'id'            => '7',
             'table'         => self::getTable(),
-            'field'         => 'computers_id',
-            'name'          => __('Equipo', 'formaciones'),
-            'itemtype'      => Computer::class,
+            'field'         => 'format',
+            'name'          => __('Formato', 'formaciones'),
+            'itemtype'      => self::class,
+            'datatype'      => 'specific',
+            'searchtype'    => 'equals',
+            'massiveaction' => false
+        ];
+
+        // Columna Formador. Lista ficticia para demostrar desplegables.
+        $tab[] = [
+            'id'            => '8',
+            'table'         => self::getTable(),
+            'field'         => 'trainer',
+            'name'          => __('Formador', 'formaciones'),
+            'itemtype'      => self::class,
+            'datatype'      => 'specific',
+            'searchtype'    => 'equals',
+            'massiveaction' => false
+        ];
+
+        $tab[] = [
+            'id'       => '9',
+            'table'    => self::getTable(),
+            'field'    => 'start_date',
+            'name'     => __('Fecha de inicio', 'formaciones'),
+            'itemtype' => self::class,
+            'datatype' => 'date'
+        ];
+
+        $tab[] = [
+            'id'       => '10',
+            'table'    => self::getTable(),
+            'field'    => 'end_date',
+            'name'     => __('Fecha de fin', 'formaciones'),
+            'itemtype' => self::class,
+            'datatype' => 'date'
+        ];
+
+        $tab[] = [
+            'id'       => '11',
+            'table'    => self::getTable(),
+            'field'    => 'duration_hours',
+            'name'     => __('Horas', 'formaciones'),
+            'itemtype' => self::class,
+            'datatype' => 'decimal'
+        ];
+
+        $tab[] = [
+            'id'       => '12',
+            'table'    => self::getTable(),
+            'field'    => 'capacity',
+            'name'     => __('Plazas', 'formaciones'),
+            'itemtype' => self::class,
+            'datatype' => 'number'
+        ];
+
+        $tab[] = [
+            'id'       => '13',
+            'table'    => self::getTable(),
+            'field'    => 'cost',
+            'name'     => __('Coste', 'formaciones'),
+            'itemtype' => self::class,
+            'datatype' => 'decimal'
+        ];
+
+        $tab[] = [
+            'id'            => '14',
+            'table'         => self::getTable(),
+            'field'         => 'level',
+            'name'          => __('Nivel', 'formaciones'),
+            'itemtype'      => self::class,
+            'datatype'      => 'specific',
+            'searchtype'    => 'equals',
+            'massiveaction' => false
+        ];
+
+        $tab[] = [
+            'id'       => '15',
+            'table'    => self::getTable(),
+            'field'    => 'location',
+            'name'     => __('Ubicacion', 'formaciones'),
+            'itemtype' => self::class,
+            'datatype' => 'string'
+        ];
+
+        $tab[] = [
+            'id'       => '16',
+            'table'    => self::getTable(),
+            'field'    => 'target_audience',
+            'name'     => __('Destinatarios', 'formaciones'),
+            'itemtype' => self::class,
+            'datatype' => 'string'
+        ];
+
+        $tab[] = [
+            'id'            => '17',
+            'table'         => self::getTable(),
+            'field'         => 'certificate',
+            'name'          => __('Certificado', 'formaciones'),
+            'itemtype'      => self::class,
             'datatype'      => 'specific',
             'searchtype'    => 'equals',
             'massiveaction' => false
@@ -292,9 +467,20 @@ class PluginFormacionesFormacion extends CommonDBTM
             return self::getStateName($values[$field] ?? self::STATE_INACTIVE);
         }
 
-        // Para el campo computers_id mostramos el nombre del equipo.
-        if ($field === 'computers_id') {
-            return self::getComputerName($values[$field] ?? 0);
+        if ($field === 'format') {
+            return self::getArrayValueName(self::getFormats(), $values[$field] ?? '');
+        }
+
+        if ($field === 'trainer') {
+            return self::getArrayValueName(self::getTrainers(), $values[$field] ?? '');
+        }
+
+        if ($field === 'level') {
+            return self::getArrayValueName(self::getLevels(), $values[$field] ?? '');
+        }
+
+        if ($field === 'certificate') {
+            return ((int) ($values[$field] ?? 0) === 1) ? __('Si') : __('No');
         }
 
         // Para otros campos usamos el comportamiento estandar de GLPI.
@@ -314,9 +500,32 @@ class PluginFormacionesFormacion extends CommonDBTM
             ]);
         }
 
-        if ($field === 'computers_id') {
-            return Dropdown::show(Computer::class, [
-                'name'    => $name,
+        if ($field === 'format') {
+            return Dropdown::showFromArray($name, self::getFormats(), [
+                'value'   => $values,
+                'display' => false
+            ]);
+        }
+
+        if ($field === 'trainer') {
+            return Dropdown::showFromArray($name, self::getTrainers(), [
+                'value'   => $values,
+                'display' => false
+            ]);
+        }
+
+        if ($field === 'level') {
+            return Dropdown::showFromArray($name, self::getLevels(), [
+                'value'   => $values,
+                'display' => false
+            ]);
+        }
+
+        if ($field === 'certificate') {
+            return Dropdown::showFromArray($name, [
+                0 => __('No'),
+                1 => __('Si')
+            ], [
                 'value'   => $values,
                 'display' => false
             ]);

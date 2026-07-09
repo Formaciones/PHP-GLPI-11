@@ -9,7 +9,7 @@
  */
 
 // Constante usada por GLPI para mostrar la version e identificar migraciones.
-define('PLUGIN_FORMACIONES_VERSION', '5.4.0');
+define('PLUGIN_FORMACIONES_VERSION', '0.0.1');
 
 /**
  * Inicializa el plugin cada vez que GLPI carga sus plugins activos.
@@ -29,7 +29,6 @@ function plugin_init_formaciones()
     Plugin::registerClass('PluginFormacionesFormacion', [
         'addtabon' => []
     ]);
-
 }
 
 /**

@@ -6,13 +6,17 @@ if (!defined('GLPI_ROOT')) {
 
 ?>
 
+<!--
+    Esta plantilla contiene las filas del formulario.
+    GLPI ya abre y cierra la tabla desde showFormHeader() y showFormButtons().
+-->
 <tr class="tab_bg_1">
     <td><?= __('Nombre', 'formaciones') ?></td>
     <td>
-    <!-- 
-        Html::input -> genera una etiqueta INPUT
-        $this->fields['name'] -> mostramos el valor guardado como name del registro Formaciones  
-    -->
+        <!--
+            Html::input genera el <input> con el estilo y convenciones de GLPI.
+            $this->fields trae el valor guardado cuando editamos un registro.
+        -->
         <?= Html::input('name', [
             'value' => $this->fields['name'] ?? '',
             'size'  => 60
@@ -22,7 +26,7 @@ if (!defined('GLPI_ROOT')) {
     <td><?= __('Estado', 'formaciones') ?></td>
     <td>
         <?php
-
+        // Desplegable con los estados definidos en PluginFormacionesFormacion::getStates().
         Dropdown::showFromArray('state', self::getStates(), [
             'value' => $this->fields['state'] ?? self::STATE_ACTIVE
         ]);
@@ -32,9 +36,9 @@ if (!defined('GLPI_ROOT')) {
 
 <tr class="tab_bg_1">
     <td><?= __('Descripcion', 'formaciones') ?></td>
-
+    <!-- colspan="3" hace que el textarea ocupe las tres columnas restantes. -->
     <td colspan="3">
-        <?php Html::textarea([
+        <?= Html::textarea([
             'name'  => 'description',
             'value' => $this->fields['description'] ?? '',
             'cols'  => 100,

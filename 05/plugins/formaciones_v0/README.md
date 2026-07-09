@@ -31,8 +31,6 @@ puedan orientarse antes de leer el codigo.
 
 El instalador crea la tabla `glpi_plugin_formaciones_formaciones`.
 
-El acceso se controla con el permiso estandar `computer`, por lo que este plugin no instala un permiso propio en perfiles.
-
 ## Flujo basico
 
 1. GLPI carga `setup.php`.

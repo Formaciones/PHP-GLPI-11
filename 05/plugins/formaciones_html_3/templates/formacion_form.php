@@ -4,8 +4,13 @@ if (!defined('GLPI_ROOT')) {
     die('Sorry. You cannot access this file directly');
 }
 
+// La plantilla se incluye desde PluginFormacionesFormacion::showForm().
+// Por eso aqui existe $this, que representa la formacion que se esta editando.
 global $DB;
 
+// Preparamos una lista simple de equipos para pintar el desplegable.
+// Se consultan solo equipos no eliminados y se ordenan por nombre para facilitar
+// la busqueda visual del usuario.
 $computers = [];
 $computer_rows = $DB->request([
     'FROM'  => Computer::getTable(),
@@ -17,6 +22,8 @@ foreach ($computer_rows as $computer) {
     $computer_id = (int) $computer['id'];
     $computer_name = trim((string) ($computer['name'] ?? ''));
 
+    // Si algun equipo no tiene nombre, mostramos su ID para que siga siendo
+    // seleccionable y no aparezca como una opcion vacia.
     if ($computer_name === '') {
         $computer_name = sprintf(__('ID %s'), $computer_id);
     }
@@ -27,7 +34,7 @@ foreach ($computer_rows as $computer) {
 ?>
 
 <style>
-
+    /* Estas clases ajustan la tabla generada por GLPI sin cambiar su estructura. */
     .plugin-formaciones-label {
         width: 18%;
         min-width: 150px;
@@ -52,6 +59,7 @@ foreach ($computer_rows as $computer) {
         margin-bottom: 6px;
     }
 
+    /* En pantallas pequenas cada celda pasa a ocupar una linea completa. */
     @media (max-width: 700px) {
         .plugin-formaciones-row,
         .plugin-formaciones-label,
@@ -71,10 +79,11 @@ foreach ($computer_rows as $computer) {
     }
 </style>
 
+<!-- Primera fila: datos principales de la formacion. -->
 <tr class="tab_bg_1 plugin-formaciones-row">
     <td class="plugin-formaciones-label"><?= __('Nombre', 'formaciones') ?></td>
     <td class="plugin-formaciones-value">
-
+        <!-- $this->fields contiene los valores actuales del registro. -->
         <?= Html::input('name', [
             'value' => $this->fields['name'] ?? '',
             'size'  => 60
@@ -84,7 +93,7 @@ foreach ($computer_rows as $computer) {
     <td class="plugin-formaciones-label"><?= __('Estado', 'formaciones') ?></td>
     <td class="plugin-formaciones-value">
         <?php
-
+        // showFromArray crea un desplegable a partir del array devuelto por getStates().
         Dropdown::showFromArray('state', self::getStates(), [
             'value' => $this->fields['state'] ?? self::STATE_ACTIVE
         ]);
@@ -92,19 +101,25 @@ foreach ($computer_rows as $computer) {
     </td>
 </tr>
 
+<!-- Campo relacionado con Computer: se guarda el ID en computers_id. -->
 <tr class="tab_bg_1 plugin-formaciones-row">
     <td class="plugin-formaciones-label"><?= __('Equipo', 'formaciones') ?></td>
     <td class="plugin-formaciones-value" colspan="3">
-
+        <!-- Caja de texto usada solo para filtrar visualmente el desplegable. -->
         <?= Html::input('computer_filter', [
             'id'          => 'plugin_formaciones_computer_filter',
             'class'       => 'plugin-formaciones-computer-filter',
             'placeholder' => __('Filtrar equipos', 'formaciones')
         ]) ?>
 
+        <!--
+            Este campo oculto es el que se envia al guardar.
+            El selector visible solo sirve para elegir y actualizar este valor.
+        -->
         <input type="hidden" name="computers_id" id="plugin_formaciones_computers_id"
             value="<?= (int) ($this->fields['computers_id'] ?? 0) ?>">
 
+        <!-- El value de cada option es el ID real del equipo en glpi_computers. -->
         <select id="plugin_formaciones_computer_picker">
             <option value="0"><?= __('Ninguno', 'formaciones') ?></option>
             <?php foreach ($computers as $computer_id => $computer_name): ?>
@@ -117,6 +132,7 @@ foreach ($computer_rows as $computer) {
     </td>
 </tr>
 
+<!-- colspan="3" permite que la descripcion use todo el ancho restante. -->
 <tr class="tab_bg_1 plugin-formaciones-row">
     <td class="plugin-formaciones-label"><?= __('Descripcion', 'formaciones') ?></td>
     <td class="plugin-formaciones-value" colspan="3">
@@ -139,6 +155,8 @@ function pluginFormacionesInitComputerFilter() {
         return;
     }
 
+    // Guardamos la lista original porque algunos navegadores no ocultan bien
+    // elementos <option> dentro de un <select>.
     var originalOptions = Array.prototype.map.call(select.options, function (option) {
         return {
             value: option.value,
@@ -148,7 +166,7 @@ function pluginFormacionesInitComputerFilter() {
     });
 
     function refreshComputerOptions() {
-
+        // Cada vez que se escribe, reconstruimos el desplegable con coincidencias.
         var search = filter.value.toLowerCase();
         var selectedValue = hiddenInput.value;
         var hasSelectedOption = false;
@@ -159,6 +177,8 @@ function pluginFormacionesInitComputerFilter() {
             var isEmptyOption = option.value === '0';
             var matchesSearch = option.text.toLowerCase().indexOf(search) !== -1;
 
+            // Con filtro vacio se muestran todas las opciones; con texto, solo
+            // los equipos que coinciden. "Ninguno" se deja solo sin filtro.
             if (search !== '' && (isEmptyOption || !matchesSearch)) {
                 return;
             }
@@ -171,6 +191,8 @@ function pluginFormacionesInitComputerFilter() {
             select.appendChild(newOption);
         });
 
+        // Si el valor guardado no esta dentro del filtro, no marcamos otra
+        // opcion automaticamente para no cambiar el equipo sin querer.
         if (!hasSelectedOption) {
             select.selectedIndex = -1;
         }
@@ -182,6 +204,7 @@ function pluginFormacionesInitComputerFilter() {
     });
 }
 
+// En GLPI la plantilla puede cargarse cuando DOMContentLoaded ya ha ocurrido.
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', pluginFormacionesInitComputerFilter);
 } else {

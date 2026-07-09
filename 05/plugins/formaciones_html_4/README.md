@@ -17,7 +17,6 @@ puedan orientarse antes de leer el codigo.
 - `setup.php`: fichero que GLPI lee para detectar, instalar, desinstalar y registrar el plugin.
 - `hook.php`: fichero reservado para hooks y relaciones de base de datos.
 - `inc/formacion.class.php`: clase principal del objeto Formacion; contiene formulario, estados y definicion de busqueda.
-- `inc/profile.class.php`: clase auxiliar para preparar permisos de perfiles.
 - `front/formacion.php`: pagina de listado de formaciones.
 - `front/formacion.form.php`: pagina que procesa altas, ediciones, borrados y muestra el formulario.
 - `sql/install.sql`: SQL de referencia para estudiar la tabla.
@@ -31,6 +30,8 @@ puedan orientarse antes de leer el codigo.
 4. Instalar y activar el plugin `Formaciones`.
 
 El instalador crea la tabla `glpi_plugin_formaciones_formaciones`.
+
+El acceso se controla con el permiso estandar `computer`, por lo que este plugin no instala un permiso propio en perfiles.
 
 ## Flujo basico
 

@@ -51,7 +51,11 @@ echo "<table class='tab_cadre_fixehov'>";
 echo "<tr>";
 echo "<th>" . __('ID') . "</th>";
 echo "<th>" . __('Nombre', 'formaciones') . "</th>";
-echo "<th>" . __('Descripcion', 'formaciones') . "</th>";
+echo "<th>" . __('Formato', 'formaciones') . "</th>";
+echo "<th>" . __('Formador', 'formaciones') . "</th>";
+echo "<th>" . __('Fecha de inicio', 'formaciones') . "</th>";
+echo "<th>" . __('Horas', 'formaciones') . "</th>";
+echo "<th>" . __('Coste', 'formaciones') . "</th>";
 echo "<th>" . __('Estado', 'formaciones') . "</th>";
 echo "<th>" . __('Fecha de creacion', 'formaciones') . "</th>";
 echo "<th>" . __('Ultima modificacion', 'formaciones') . "</th>";
@@ -71,9 +75,6 @@ foreach ($rows as $row) {
     // Si no hay nombre, muestra un texto basado en el ID.
     $name = $row['name'] !== '' ? $row['name'] : sprintf(__('ID %s'), $id);
 
-    // Usa cadena vacia si la descripcion viene nula.
-    $description = $row['description'] ?? '';
-
     // Fila HTML del registro.
     echo "<tr class='tab_bg_1'>";
     echo "<td>" . htmlescape((string) $id) . "</td>";
@@ -92,8 +93,12 @@ foreach ($rows as $row) {
 
     echo "</td>";
 
-    // nl2br respeta saltos de linea de la descripcion.
-    echo "<td>" . nl2br(htmlescape($description)) . "</td>";
+    // Muestra valores de catalogo con su etiqueta legible.
+    echo "<td>" . htmlescape(PluginFormacionesFormacion::getSpecificValueToDisplay('format', $row)) . "</td>";
+    echo "<td>" . htmlescape(PluginFormacionesFormacion::getSpecificValueToDisplay('trainer', $row)) . "</td>";
+    echo "<td>" . htmlescape(Html::convDate($row['start_date'])) . "</td>";
+    echo "<td>" . htmlescape((string) $row['duration_hours']) . "</td>";
+    echo "<td>" . htmlescape((string) $row['cost'] . ' ' . ($row['currency'] ?? '')) . "</td>";
 
     // Convierte el estado numerico en texto legible.
     echo "<td>" . htmlescape(PluginFormacionesFormacion::getStateName($row['state'])) . "</td>";

@@ -121,9 +121,6 @@ class PluginFormacionesFormacion extends CommonDBTM
      */
     private function cleanInput(array $input)
     {
-        // El filtro solo sirve para buscar equipos en pantalla; no se guarda.
-        unset($input['computer_filter']);
-
         // Quita espacios al principio y al final del nombre.
         if (isset($input['name'])) {
             $input['name'] = trim($input['name']);
@@ -137,11 +134,6 @@ class PluginFormacionesFormacion extends CommonDBTM
         // Convierte el estado a entero para guardar 0 o 1.
         if (isset($input['state'])) {
             $input['state'] = (int) $input['state'];
-        }
-
-        // Relacion con el equipo seleccionado en el inventario de GLPI.
-        if (isset($input['computers_id'])) {
-            $input['computers_id'] = (int) $input['computers_id'];
         }
 
         // Devuelve el array ya saneado a GLPI.
@@ -159,7 +151,41 @@ class PluginFormacionesFormacion extends CommonDBTM
         // Pinta la cabecera estandar del formulario de GLPI.
         $this->showFormHeader($options);
 
-        include GLPI_ROOT . '/plugins/formaciones/templates/formacion_form.php';
+        // Primera fila: nombre y estado.
+        echo '<tr class="tab_bg_1">';
+        echo '<td>' . __('Nombre', 'formaciones') . '</td>';
+        echo '<td>';
+
+        // Campo de texto para el nombre.
+        echo Html::input('name', [
+            'value' => $this->fields['name'] ?? '',
+            'size'  => 60
+        ]);
+        echo '</td>';
+        echo '<td>' . __('Estado', 'formaciones') . '</td>';
+        echo '<td>';
+
+        // Desplegable con los estados definidos en getStates().
+        Dropdown::showFromArray('state', self::getStates(), [
+            'value' => $this->fields['state'] ?? self::STATE_ACTIVE
+        ]);
+        echo '</td>';
+        echo '</tr>';
+
+        // Segunda fila: descripcion larga.
+        echo '<tr class="tab_bg_1">';
+        echo '<td>' . __('Descripcion', 'formaciones') . '</td>';
+        echo '<td colspan="3">';
+
+        // Area de texto para escribir la descripcion de la formacion.
+        echo Html::textarea([
+            'name'  => 'description',
+            'value' => $this->fields['description'] ?? '',
+            'cols'  => 100,
+            'rows'  => 6
+        ]);
+        echo '</td>';
+        echo '</tr>';
 
         // Pinta los botones estandar: guardar, borrar, restaurar, etc.
         $this->showFormButtons($options);
@@ -192,20 +218,6 @@ class PluginFormacionesFormacion extends CommonDBTM
     }
 
     /**
-     * Devuelve el nombre visible de un equipo asociado.
-     */
-    public static function getComputerName($computers_id)
-    {
-        $computers_id = (int) $computers_id;
-
-        if ($computers_id <= 0) {
-            return __('Ninguno', 'formaciones');
-        }
-
-        return Dropdown::getDropdownName(Computer::getTable(), $computers_id);
-    }
-
-    /**
      * Define columnas disponibles para el buscador/listado estandar de GLPI.
      */
     public function rawSearchOptions()
@@ -232,18 +244,6 @@ class PluginFormacionesFormacion extends CommonDBTM
             'name'     => __('Descripcion', 'formaciones'),
             'itemtype' => self::class,
             'datatype' => 'text'
-        ];
-
-        // Columna Equipo. Guarda el id del Computer relacionado.
-        $tab[] = [
-            'id'            => '7',
-            'table'         => self::getTable(),
-            'field'         => 'computers_id',
-            'name'          => __('Equipo', 'formaciones'),
-            'itemtype'      => Computer::class,
-            'datatype'      => 'specific',
-            'searchtype'    => 'equals',
-            'massiveaction' => false
         ];
 
         // Columna Estado. datatype specific permite personalizar su visualizacion.
@@ -292,11 +292,6 @@ class PluginFormacionesFormacion extends CommonDBTM
             return self::getStateName($values[$field] ?? self::STATE_INACTIVE);
         }
 
-        // Para el campo computers_id mostramos el nombre del equipo.
-        if ($field === 'computers_id') {
-            return self::getComputerName($values[$field] ?? 0);
-        }
-
         // Para otros campos usamos el comportamiento estandar de GLPI.
         return parent::getSpecificValueToDisplay($field, $values, $options);
     }
@@ -309,14 +304,6 @@ class PluginFormacionesFormacion extends CommonDBTM
         // Para state, el filtro de busqueda es un desplegable de estados.
         if ($field === 'state') {
             return Dropdown::showFromArray($name, self::getStates(), [
-                'value'   => $values,
-                'display' => false
-            ]);
-        }
-
-        if ($field === 'computers_id') {
-            return Dropdown::show(Computer::class, [
-                'name'    => $name,
                 'value'   => $values,
                 'display' => false
             ]);
