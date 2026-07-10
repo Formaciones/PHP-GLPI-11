@@ -9,7 +9,7 @@
  */
 
 // Constante usada por GLPI para mostrar la version e identificar migraciones.
-define('PLUGIN_FORMACIONES_VERSION', '5.3.0');
+define('PLUGIN_FORMACIONES_VERSION', '5.3.1');
 
 /**
  * Inicializa el plugin cada vez que GLPI carga sus plugins activos.

@@ -91,19 +91,19 @@ Dropdown::showFromArray('state', $options, ['value' => (self::getStates()['state
                                             <td>Activo Formaciones con los campos Nombre, Estado y Descripción. El formulario se crea sin fichero de plantilla, se implementa dentro de la función ShowForm().</td>
                                         </tr>
                                         <tr>
-                                            <td>5.0.1</td>
+                                            <td>5.1.0</td>
                                             <td>Activo Formaciones con los campos Nombre, Estado y Descripción. El formulario se crea mediante una plantilla, simplificando la función ShowForm().</td>
                                         </tr>
                                         <tr>
-                                            <td>5.0.2</td>
+                                            <td>5.2.0</td>
                                             <td>Activo Formaciones. Este ejemplo muestra recursos para crear formularios mediante una plantilla. Los campos son de ejemplo no operativos.</td>
                                         </tr>
                                         <tr>
-                                            <td>5.0.3</td>
+                                            <td>5.3.0 y 5.3.1</td>
                                             <td>Activo Formaciones con los campos Nombre, Estado, Computer y Descripción. El formulario se crea con diseño responsive y con un filtro para minimizar el espacio ocupado por el Dropdown.</td>
                                         </tr>
                                         <tr>
-                                            <td>5.0.4</td>
+                                            <td>5.4.0</td>
                                             <td>Activo Formaciones con los campos Nombre, Estado, Tipo y Descripción. El formulario carga las opciones del tipo de formación consultando una API externa.</td>
                                         </tr>
                                     </tbody>
