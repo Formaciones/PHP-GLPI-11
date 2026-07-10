@@ -1,0 +1,62 @@
+{
+  "type": "message",
+  "attachments": [
+    {
+      "contentType": "application/vnd.microsoft.card.adaptive",
+      "contentUrl": null,
+      "content": {
+        "$schema": "https://adaptivecards.io/schemas/adaptive-card.json",
+        "type": "AdaptiveCard",
+        "version": "1.4",
+        "body": [
+          {
+            "type": "TextBlock",
+            "text": "Nuevo ticket en GLPI",
+            "size": "Large",
+            "weight": "Bolder",
+            "wrap": true
+          },
+          {
+            "type": "TextBlock",
+            "text": "No funciona Microsoft Outlook",
+            "weight": "Bolder",
+            "wrap": true,
+            "spacing": "Medium"
+          },
+          {
+            "type": "FactSet",
+            "facts": [
+              {
+                "title": "Número:",
+                "value": "1548"
+              },
+              {
+                "title": "Solicitante:",
+                "value": "Borja Cabeza"
+              },
+              {
+                "title": "Prioridad:",
+                "value": "Alta"
+              },
+              {
+                "title": "Estado:",
+                "value": "Nuevo"
+              },
+              {
+                "title": "Entidad:",
+                "value": "Instituto de Salud"
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.OpenUrl",
+            "title": "Abrir ticket en GLPI",
+            "url": "https://glpi.midominio.com/front/ticket.form.php?id=1548"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -30,9 +30,11 @@ function plugin_init_formaciones()
 
     // Carga la hoja de estilos propia despues de los estilos nativos de GLPI.
     // Las reglas se limitan a .plugin-formaciones para no afectar otros formularios.
+    // La carpeta CSS que buscas GLPI esta dentro de la carpeta PUBLIC
     $PLUGIN_HOOKS[Hooks::ADD_CSS]['formaciones'] = 'css/formaciones.css';
 
     // Carga el JavaScript propio que valida las fechas en el navegador.
+    // La carpeta JS que buscas GLPI esta dentro de la carpeta PUBLIC
     $PLUGIN_HOOKS[Hooks::ADD_JAVASCRIPT]['formaciones'] = [
         'js/formaciones.js'
     ];

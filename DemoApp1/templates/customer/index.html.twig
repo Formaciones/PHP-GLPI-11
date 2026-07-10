@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listado de Clientes{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col"></div>
+    <div class="col-10">
+        <br />
+        <h1>Listado de Clientes</h1>
+        <hr />
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Identificador</th>
+                    <th>Empresa</th>
+                    <th>Ciudad</th>
+                    <th>País</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in clientes %}
+                <tr>
+                    <td>{{ cliente.CustomerID }}</td>
+                    <td><a href="/clientes/ficha/{{ cliente.CustomerID }}">{{ cliente.CompanyName }}</a></td>
+                    <td>{{ cliente.Country }}</td>
+                    <td>{{ cliente.City }}</td>
+                </tr>                
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col"></div>
+</div>
+<br /><br /><br /><br />
+{% endblock %}

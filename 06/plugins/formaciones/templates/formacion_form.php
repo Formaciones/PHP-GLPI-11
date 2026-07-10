@@ -72,6 +72,7 @@ if (!defined('GLPI_ROOT')) {
     </td>
 </tr>
 
+
 <!-- Cuarta fila: descripcion larga de la formacion. -->
 <tr class="tab_bg_1 plugin-formaciones">
     <td class="plugin-formaciones__label"><?= __('Descripcion', 'formaciones') ?></td>
