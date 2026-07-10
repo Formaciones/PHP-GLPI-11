@@ -1,0 +1,77 @@
+/*
+ * Hoja de estilos propia del plugin Formaciones.
+ * setup.php la registra mediante el hook add_css de GLPI.
+ * En GLPI 11 los recursos servidos por el navegador viven dentro de public/.
+ */
+
+/* Limitar todas las reglas a esta clase evita modificar otros formularios de GLPI. */
+.plugin-formaciones {
+    /* El fondo y los bordes hacen visible que el plugin modifica el CSS nativo. */
+    background-color: var(--tblr-primary-lt, #e9f2ff) !important;
+}
+
+/* Se separan visualmente las filas del formulario estandar de GLPI. */
+.plugin-formaciones > td {
+    border-bottom: 4px solid var(--tblr-bg-surface, #ffffff) !important;
+    padding: 1rem !important;
+}
+
+.plugin-formaciones .plugin-formaciones__label {
+    /* Sobrescribe el aspecto de la celda nativa para destacar las etiquetas. */
+    color: var(--tblr-primary, #206bc4);
+    font-weight: 600;
+    min-width: 150px;
+    vertical-align: top;
+}
+
+/* Los controles reciben un borde propio para ilustrar una sobrescritura nativa. */
+.plugin-formaciones .plugin-formaciones__field input,
+.plugin-formaciones .plugin-formaciones__field select,
+.plugin-formaciones .plugin-formaciones__field textarea {
+    background-color: var(--tblr-bg-forms, #ffffff);
+    border: 2px solid var(--tblr-primary, #206bc4);
+    border-radius: 0.5rem;
+    padding: 0.55rem 0.75rem;
+}
+
+/* Los controles aprovechan el ancho disponible sin desbordar su celda. */
+.plugin-formaciones .plugin-formaciones__field input,
+.plugin-formaciones .plugin-formaciones__field select,
+.plugin-formaciones .plugin-formaciones__field textarea {
+    box-sizing: border-box;
+    max-width: 100%;
+    width: 100%;
+}
+
+/* Se da aire a la celda que contiene el aviso generado por JavaScript. */
+.plugin-formaciones .plugin-formaciones__warning-cell {
+    vertical-align: middle;
+}
+
+/* El aviso usa variables de GLPI/Tabler y valores alternativos por compatibilidad. */
+.plugin-formaciones__warning {
+    background: var(--tblr-warning-lt, #fff3cd);
+    border-left: 4px solid var(--tblr-warning, #f59f00);
+    border-radius: 4px;
+    color: var(--tblr-body-color, #1f2937);
+    padding: 0.75rem 1rem;
+}
+
+/* El atributo hidden debe prevalecer aunque otras reglas cambien el display. */
+.plugin-formaciones__warning[hidden] {
+    display: none;
+}
+
+/* La clase de error permite mostrar qué campos provocan la advertencia. */
+.plugin-formaciones__date--invalid {
+    background-color: var(--tblr-danger-lt, #fce8e8) !important;
+    border-color: var(--tblr-danger, #d63939) !important;
+    box-shadow: 0 0 0 0.15rem rgb(214 57 57 / 20%);
+}
+
+/* En pantallas estrechas se reduce el ancho minimo impuesto a las etiquetas. */
+@media (max-width: 700px) {
+    .plugin-formaciones .plugin-formaciones__label {
+        min-width: 110px;
+    }
+}
